@@ -111,7 +111,7 @@ Burke's Plot:
 
 Drew's Plot:
 
-I used the data to determine the frequency of the different types of delays and how long they take based on the type. I first filtered the data by "delayed" flights that missed their arrival time by at least 15 minutes. After this, I broke down each delayed flight by the type, including carrier, weather, NAS, and security. From this breakdown, I calculated the average number of minutes that each type of delay took. From this, we can see that carrier and NAS delays are the most prevalent, but weather delays take the longest on average. I then created a pie chart to show the probablity of each delay more clearly. 
+I used the data to determine the frequency of the different types of delays and how long they take based on the type. I first filtered the data by "delayed" flights that missed their arrival time by at least 15 minutes. After this, I broke down each delayed flight by the type, including carrier, weather, NAS, and security. From this breakdown, I calculated the average number of minutes that each type of delay took. From this, we can see that carrier and NAS delays are the most prevalent, but weather delays take the longest on average. I then created a pie chart to show the probablity of each delay more clearly, and which type is the most prevalent.
 
 ```{r, echo=FALSE}
 library(tidyverse)
@@ -145,7 +145,7 @@ newframe <- data.frame(
   y = means)
 
 ggplot(data = newframe, aes(x, y)) + geom_point() + 
-  ylab('Average Delay') + 
+  ylab('Average Delay (minutes)') + 
   xlab('Amount of Delays') +
   ggtitle('Frequency and Average Duration of Delay by Type') + 
   annotate(geom="text", x=17754, y=41.3, label="Carrier", color="black") +
