@@ -19,6 +19,20 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 
 
 #Team Plots & Questions:
+```{r}
+DENflights <- COflights %>% filter(DEST == 'DEN')
+##filtering flights that are only arriving in denver
+PtoDEN <- nrow(DENflights)/nrow(COflights)
+##probability of a flight to denver out of total flights.
+late_arrival <- DENflights %>% filter(ARR_DELAY >= 15)
+##creating late arrival to test probability
+PLateArr <- nrow(late_arrival)/nrow(DENflights)
+##the probability of a flight arriving late is 0.157
+
+##testing factors that increase arrival delay.
+
+
+```
 
 
 #Team Recommended Course of Action:
@@ -139,6 +153,6 @@ totals <- c(17754, 1663, 18086, 89)
 
 ```
 
-Brendan's Plot:
+Brandon's Plot:
 
 #Summary/Division of Labor:
