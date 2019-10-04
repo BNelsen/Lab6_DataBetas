@@ -127,6 +127,9 @@ ggplot(DelayedDecemberFlights, aes(x = DAY_OF_MONTH)) +
 ***Burke's Plot:***
 
 ***Drew's Plot:***
+
+I used the data to determine the frequency of the different types of delays and how long they take based on the type. I first filtered the data by "delayed" flights that missed their arrival time by at least 15 minutes. After this, I broke down each delayed flight by the type, including carrier, weather, NAS, and security. From this breakdown, I calculated the average number of minutes that each type of delay took. From this, we can see that carrier and NAS delays are the most prevalent, but weather delays take the longest on average. I then created a pie chart to show the probablity of each delay more clearly, and which type is the most prevalent.
+
 ```{r, echo=FALSE}
 library(tidyverse)
 library(dplyr)
@@ -151,9 +154,25 @@ t_c <- carrier %>% summarise(n())
 t_w <- weather %>% summarise(n())
 t_n <- nas %>% summarise(n())
 t_s <- security %>% summarise(n())
+t <- delayed %>% summarise(n())
 totals <- c(17754, 1663, 18086, 89)
 
+newframe <- data.frame(
+  x = totals,
+  y = means)
 
+ggplot(data = newframe, aes(x, y)) + geom_point() + 
+  ylab('Average Delay (minutes)') + 
+  xlab('Amount of Delays') +
+  ggtitle('Frequency and Average Duration of Delay by Type') + 
+  annotate(geom="text", x=17754, y=41.3, label="Carrier", color="black") +
+  annotate(geom="text", x=1663, y=57.8, label="Weather", color="black") +
+  annotate(geom="text", x=18086, y=27.2, label="NAS", color="black") +
+  annotate(geom="text", x=89, y=29.7, label="Security", color="black") +
+  ylim(0,60)
+
+lbls <- c("Carrier", "Weather", "NAS", "Security")
+pie(totals, labels = lbls, main="Delays by Type")
 ```
 
 ***Brandon's Plot:***
