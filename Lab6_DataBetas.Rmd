@@ -17,6 +17,14 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 
 # Overall Questions, Significance of Overall Questions:
 
+**What Factors Lead to On-time Arrivals in Denver?**
+
+This question is important to airports because DIA wants to maximize the efficiency of their service.  The world runs on a schedule and being able to consistently rely on flight times being accurate helps people plan ahead with more certainty. If a diplomat has an important international meeting with a foreign consulate, they need to be able to plan out their trip ahead of time and factor in time of flight. If the flight time is unreliable, it causes a host other logistical issues for passengers.  Minimizing delays also allows the airport to send out and receive a higher volume of flights, increasing their financial bottom line. Hidden in the data are the factors that lead to on-time arrivals, and by analyzing it we may gain more insight on these influences.
+
+**What are the main causes of flight delays?**
+
+There are a multitude of factors affecting the timeliness of a flight, including weather, passenger volume, security concerns, time of year, among others. They each affect the arrival time in different magnitudes and with different frequencies. The question is important because it will show DIA what they need to focus on the most in terms of minimizing delay. For instance, if many more flights face security delays than carrier delays, then the airport would be better served to make their security screening process more efficient. By answering this question, it reveals what should be focused on the most and what the main obstacles in facilitating a timely flight are. 
+
 
 # Team Plots & Questions:
 
