@@ -110,6 +110,34 @@ ggplot(DelayedDecemberFlights, aes(x = DAY_OF_MONTH)) +
 Burke's Plot:
 
 Drew's Plot:
+```{r, echo=FALSE}
+library(tidyverse)
+library(dplyr)
+#filter by delayed flights
+delayed <- filter(COflights, DEST == "DEN", ARR_DELAY >= 15, !is.na(ARR_TIME))
+
+#filter by each type
+carrier <- filter(delayed, CARRIER_DELAY >= 1) 
+weather <- filter(delayed, WEATHER_DELAY >= 1)
+nas <- filter(delayed, NAS_DELAY >= 1)
+security <- filter(delayed, SECURITY_DELAY >= 1)
+
+#mean delay per type
+a_c <- mean(carrier$CARRIER_DELAY)
+a_w <- mean(weather$WEATHER_DELAY)
+a_n <- mean(nas$NAS_DELAY)
+a_s <- mean(security$SECURITY_DELAY)
+means <- c(a_c, a_w, a_n, a_s)
+
+#total num of delays per type
+t_c <- carrier %>% summarise(n())
+t_w <- weather %>% summarise(n())
+t_n <- nas %>% summarise(n())
+t_s <- security %>% summarise(n())
+totals <- c(17754, 1663, 18086, 89)
+
+
+```
 
 Brendan's Plot:
 
