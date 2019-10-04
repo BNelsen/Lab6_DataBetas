@@ -15,17 +15,20 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 ```
 
 
-#Overall Questions, Significance of Overall Questions:
+# Overall Questions, Significance of Overall Questions:
 
 
-#Team Plots & Questions:
+# Team Plots & Questions:
 
 
-#Team Recommended Course of Action:
+# Team Recommended Course of Action:
 
-#Individual Sections:
+# Individual Sections:
 
-Tanner's Plot:
+***Tanner's Plot:***
+
+I chose to look at how often a particular airline arrives in Denver later than scheduled. I first got the total number of late flights in Denver, sorted by airline, then I got the total number of flights that landed in Denver, also sorted by airline. Then I created a new table that contains both of these numbers for each carrier, then added a new variable for the probability of a late arrival in Denver for a given airline.
+
 ```{r}
 # count the number of delayed flights to Denver
 carrierDelay <- filter(COflights, DEST == 'DEN', ARR_DELAY >= 15, !is.na(ARR_DELAY)) %>% group_by(CARRIER) %>% summarise('total' = n())
@@ -33,14 +36,28 @@ carrierDelay <- filter(COflights, DEST == 'DEN', ARR_DELAY >= 15, !is.na(ARR_DEL
 # count the total number of planes landing in Denver in the dataset
 landed <- filter(COflights, DEST == 'DEN', !is.na(ARR_TIME)) %>% group_by(CARRIER) %>% summarise('total' = n())
 
+# create a new table with the delay and total landed for all carriers
 merged <- merge(carrierDelay, landed, by="CARRIER")
-
+# add a new column that calculates the probability of a delayed arrival to Denver by carrier
 merged <- mutate(merged, probCarrierDelay = total.x/total.y)
 
 ggplot(data = merged,aes(x = CARRIER, y = probCarrierDelay)) + geom_point() + geom_text(aes(label=signif(probCarrierDelay, digits = 3)), hjust=-.25, vjust=0) + xlab('Airline') + ylab('Probability of an Arrival Delay') + ggtitle('The Probability of an Arrival Delay in Denver by Airline')
 ```
 
-David's Plot:
+After plotting the results, we can see that the airlines with the highest likelihood of a late arrival in Denver in 2017 were B6 (JetBlue) and VX (Virgin America). These two carriers were much more likely to be late than the rest of the carriers in the dataset, so I was curious about potential reasons for this. I chose to look at the origin of these airlines' flights to Denver:
+
+```{r}
+B6origins <- filter(COflights, DEST == 'DEN', CARRIER == 'B6') %>% group_by(ORIGIN) %>% summarise('total' = n())
+
+VXorigins <- filter(COflights, DEST == 'DEN', CARRIER == 'VX') %>% group_by(ORIGIN) %>% summarise('total' = n())
+
+B6origins
+VXorigins
+```
+
+As we can see, JetBlue flies to Denver exclusively from JFK in Queens, NY and BOS in Boston, MA, while Virgin America flies to Denver exclusively from SFO in San Francisco, CA. Potential reasons for the late arrivals, then, could be the flight time (since these are all pretty long flights), or it could be due to how busy these three airports are.
+
+***David's Plot:***
 
 Findings: I used the data to determine how Christmas effected delays at DIA. I calculated the probability of a flight being delayed the week of Christmas by creating multiple subsets of the data and creating a new variable that determined if a flight was delayed. The probability of a flight being delayed Christmas week turned out to be 26.7%. The probability of a flight being delayed in december was 18.3% and the probability of any flight being delayed throughout all months was 17.1%. Hence, it is easy to see that the Christmas holiday has an effect on the chances of a flight being delayed. This is supported by the histogram which shows that the most amount of delayed flights occured on December 21st.
 
@@ -107,9 +124,9 @@ ggplot(DelayedDecemberFlights, aes(x = DAY_OF_MONTH)) +
   ggtitle('Distribution of Delayed Flights in December')
 ```
 
-Burke's Plot:
+***Burke's Plot:***
 
-Drew's Plot:
+***Drew's Plot:***
 ```{r, echo=FALSE}
 library(tidyverse)
 library(dplyr)
@@ -139,6 +156,6 @@ totals <- c(17754, 1663, 18086, 89)
 
 ```
 
-Brendan's Plot:
+***Brandon's Plot:***
 
 #Summary/Division of Labor:
