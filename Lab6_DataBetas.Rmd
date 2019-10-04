@@ -133,6 +133,7 @@ ggplot(DelayedDecemberFlights, aes(x = DAY_OF_MONTH)) +
 ```
 
 ***Burke's Plot:***
+I found the differences in probability of some of the airports of which the flights departed from en route to DIA. I made a bar chart in order to display some of the airports that had the most delayed flights. We can clearly see that the airports with the most delayed flights are SFO and LAX.
 ```{r, echo=FALSE}
 library(tidyverse)
 library(dplyr)
@@ -150,6 +151,8 @@ ggplot(data = TopOriginFlight) + geom_col(mapping = aes(x = ORIGIN, y = total, f
   xlab('Origin of Flight by Airport')+
   ylab('Total Count')+
   ggtitle('Total Delayed Flights by Origin of Departure')
+
+
 ```
 ***Drew's Plot:***
 
