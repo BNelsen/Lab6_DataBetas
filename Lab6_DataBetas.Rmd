@@ -60,15 +60,9 @@ PLate <- (PLateDep*PLateArr)/PLateArr
 
 ```
 
-
-#Team Recommended Course of Action:
-
-
-# Team Plots & Questions:
-
-
 # Team Recommended Course of Action:
 There are a multitude of factors affecting the timeliness of a flight, including weather, passenger volume, security concerns, time of year, among others. They each affect the arrival time in different magnitudes and with different frequencies. The question is important because it will show DIA what they need to focus on the most in terms of minimizing delay. For instance, if many more flights face security delays than carrier delays, then the airport would be better served to make their security screening process more efficient. By answering this question, it reveals what should be focused on the most and what the main obstacles in facilitating a timely flight are. 
+
 # Individual Sections:
 
 ***Tanner's Plot:***
@@ -190,6 +184,7 @@ ggplot(data = TopOriginFlight) + geom_col(mapping = aes(x = ORIGIN, y = total, f
   ylab('Total Count')+
   ggtitle('Total Delayed Flights to DEN by Origin of Departure')
 ```
+
 ***Drew's Plot:***
 
 I used the data to determine the frequency of the different types of delays and how long they take based on the type. I first filtered the data by "delayed" flights that missed their arrival time by at least 15 minutes. After this, I broke down each delayed flight by the type, including carrier, weather, NAS, and security. From this breakdown, I calculated the average number of minutes that each type of delay took. From this, we can see that carrier and NAS delays are the most prevalent, but weather delays take the longest on average. I then created a pie chart to show the probablity of each delay more clearly, and which type is the most prevalent.
@@ -270,3 +265,5 @@ Findings:
 I asked the question: Does a longer taxi cause for an arrival delay? According to my findings it does not cause for an arrival delay. I first found the taxi in time and taxi out time for all flights to denver and then I found the average taxi in and out time. I then added those together and created a variable Taxi Delay where I took all taxi times greater than the average taxi time and made those late taxi times. I then took the probability of the taxi times with and without delay compared to late arrivals and was given values of P = 0.189 for taxi delay and P = 0.795 for taxis not delay. These two probabilities show that there is actually a higher chance of a flight being delayed if a taxi is not delayed than if the taxi is delayed. I plotted the time vs delay using geom_point so I could show that there is no correlation or pattern between taxi time and flight delay and it is seen in the graph that the more flights delayed are in the lesser taxi time totals.
 
 #Summary/Division of Labor:
+
+Drew did the data and writing for the Team Plots and Questions section, as well as the Recommendation. David created the Team Plot. We all did our individual plots and data work.
