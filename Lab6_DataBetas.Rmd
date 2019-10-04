@@ -63,7 +63,7 @@ B6origins
 VXorigins
 ```
 
-As we can see, JetBlue flies to Denver exclusively from JFK in Queens, NY and BOS in Boston, MA, while Virgin America flies to Denver exclusively from SFO in San Francisco, CA. Potential reasons for the late arrivals, then, could be the flight time (since these are all pretty long flights), or it could be due to how busy these three airports are.
+As we can see, JetBlue flies to Denver exclusively from JFK in Queens, NY and BOS in Boston, MA, while Virgin America flies to Denver exclusively from SFO in San Francisco, CA. Potential reasons for the late arrivals, then, could be the flight time (since these are all pretty long flights), or it could be due to how busy these three airports are. In Burke's plot later in this writeup, we see that SFO has the most delayed flights to Denver of all the airports in the dataset, which could explain Virgin's high delay probability.
 
 ***David's Plot:***
 
@@ -149,7 +149,7 @@ TopOriginFlight <- OriginFlight %>% filter(total > 600)
 ggplot(data = TopOriginFlight) + geom_col(mapping = aes(x = ORIGIN, y = total, fill = ORIGIN)) +
   xlab('Origin of Flight by Airport')+
   ylab('Total Count')+
-  ggtitle('Total Delayed Flights by Origin of Departure')
+  ggtitle('Total Delayed Flights to DEN by Origin of Departure')
 ```
 ***Drew's Plot:***
 
