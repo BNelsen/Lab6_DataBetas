@@ -17,20 +17,58 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 
 # Overall Questions, Significance of Overall Questions:
 
+
+
+
+#Team Plots & Questions:
 **What Factors Lead to On-time Arrivals in Denver?**
-
 This question is important to airports because DIA wants to maximize the efficiency of their service.  The world runs on a schedule and being able to consistently rely on flight times being accurate helps people plan ahead with more certainty. If a diplomat has an important international meeting with a foreign consulate, they need to be able to plan out their trip ahead of time and factor in time of flight. If the flight time is unreliable, it causes a host other logistical issues for passengers.  Minimizing delays also allows the airport to send out and receive a higher volume of flights, increasing their financial bottom line. Hidden in the data are the factors that lead to on-time arrivals, and by analyzing it we may gain more insight on these influences.
+```{r}
+DENflights <- COflights %>% filter(DEST == 'DEN') %>% summarise('DEN' = n())
+##filtering flights that are only arriving in denver
+PtoDEN <- nrow(DENflights)/nrow(COflights)
+##probability of a flight to denver out of total flights.
+late_arrival <- DENflights %>% filter(!is.na(DENflights$ARR_DELAY >= 15)) %>% summarise('late' = n())
+##creating late arrival to test probability
+PLateArr <- late_arrival/DENflights
+##the probability of a flight arriving late is 0.157
 
-**What are the main causes of flight delays?**
+##testing factors that increase arrival delay.
+late_departure <- DENflights %>% filter(DEP_DELAY >= 15)
+PLateDep <- late_departure/DENflights
+##probability of a late departure is 0.164
 
-There are a multitude of factors affecting the timeliness of a flight, including weather, passenger volume, security concerns, time of year, among others. They each affect the arrival time in different magnitudes and with different frequencies. The question is important because it will show DIA what they need to focus on the most in terms of minimizing delay. For instance, if many more flights face security delays than carrier delays, then the airport would be better served to make their security screening process more efficient. By answering this question, it reveals what should be focused on the most and what the main obstacles in facilitating a timely flight are. 
+##taxi time total
+NewDENflights <- mutate(DENflights, TaxiTime = TAXI_OUT + TAXI_IN)
+
+#probability of an arrival delay with a weather delay vs arrival delay with no weather dealy. (0.157)*P(weather delay)
+weather_delay_total <- DENflights %>% filter(WEATHER_DELAY == 1)
+PWeatherDelay <- nrow(weather_delay_total)/nrow(late_arrival)
+
+no_weather_delay <- DENflights %>% filter(WEATHER_DELAY == 0) 
+PNoWeatherDelay <- nrow(no_weather_delay)/nrow(late_arrival)
+##probability of late arrival and weather delay
+PWeatherandLate <- PLateArr * PWeatherDelay ##0.0001
+PNoWeatherLate <- PNoWeatherDelay * PLateArr ##0.149
+
+
+##probability a flight is late due to a delayed takeoff
+##probability a flight arrives later than 15 min 0.157
+##probability a flight departs later than 15 min 0.169
+PLate <- (PLateDep*PLateArr)/PLateArr
+##0.0265
+
+```
+
+
+#Team Recommended Course of Action:
 
 
 # Team Plots & Questions:
 
 
 # Team Recommended Course of Action:
-
+There are a multitude of factors affecting the timeliness of a flight, including weather, passenger volume, security concerns, time of year, among others. They each affect the arrival time in different magnitudes and with different frequencies. The question is important because it will show DIA what they need to focus on the most in terms of minimizing delay. For instance, if many more flights face security delays than carrier delays, then the airport would be better served to make their security screening process more efficient. By answering this question, it reveals what should be focused on the most and what the main obstacles in facilitating a timely flight are. 
 # Individual Sections:
 
 ***Tanner's Plot:***
@@ -133,6 +171,7 @@ ggplot(DelayedDecemberFlights, aes(x = DAY_OF_MONTH)) +
 ```
 
 ***Burke's Plot:***
+I found the differences in probability of some of the airports of which the flights departed from en route to DIA. I made a bar chart in order to display some of the airports that had the most delayed flights. We can clearly see that the airports with the most delayed flights are SFO and LAX.
 ```{r, echo=FALSE}
 library(tidyverse)
 library(dplyr)
