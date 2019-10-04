@@ -42,6 +42,71 @@ ggplot(data = merged,aes(x = CARRIER, y = probCarrierDelay)) + geom_point() + ge
 
 David's Plot:
 
+Findings: I used the data to determine how Christmas effected delays at DIA. I calculated the probability of a flight being delayed the week of Christmas by creating multiple subsets of the data and creating a new variable that determined if a flight was delayed. The probability of a flight being delayed Christmas week turned out to be 26.7%. The probability of a flight being delayed in december was 18.3% and the probability of any flight being delayed throughout all months was 17.1%. Hence, it is easy to see that the Christmas holiday has an effect on the chances of a flight being delayed. This is supported by the histogram which shows that the most amount of delayed flights occured on December 21st.
+
+```{r}
+#Create a variable specific to Denver
+
+DENflights <- 
+  COflights %>%
+  filter(ORIGIN == 'DEN' | DEST == 'DEN')
+
+#Delayed arrivals in Denver
+#Create an operator that determines if a flight had a delayed arrival
+
+DelayedOperator <-
+  mutate(DENflights, Delayed = ARR_DELAY >= 15)
+
+#Show only the delayed flights
+
+DelayedDENFlights <-
+    filter(DelayedOperator, Delayed == TRUE)
+
+
+#How do major holidays effect arrivals?
+
+DelayedDecemberFlights <-
+  filter(DelayedDENFlights, MONTH == 12)
+
+#Calulate the probabliity a flight was delayed on the week of Christmas (Dec.18-Dec.25)
+# P(Delayed Christmas Week) = Delays Christmas Week/ Number of Flights Christmas Week
+
+DelayedChristmasWeek <-
+  filter(DelayedDecemberFlights, DAY_OF_MONTH %in% c(18,19,20,21,22,23,24,25))
+
+FlightsChristmasWeek <-
+  filter(DENflights, MONTH == 12, DAY_OF_MONTH %in% c(18,19,20,21,22,23,24,25))
+
+nrow(DelayedChristmasWeek)/nrow(FlightsChristmasWeek)
+
+## [1] 0.2673465
+
+#Probability of any flight being delayed
+
+nrow(DelayedDENFlights)/nrow(DENflights)
+
+## [1] 0.1709883
+
+#probability of a December flight being delayed
+
+DecemberFlights <-
+  filter(DENflights, MONTH == 12)
+
+nrow(DelayedDecemberFlights)/nrow(DecemberFlights)
+
+## [1] 0.1826364
+
+#P(Delayed Christmas Week) = 26.7%, P(Any flight being Delayed) = 17.1%, P(December Flight being delayed) = 18.3%
+
+#Create a plot that shows there are more delays Christmas Week oppose to the rest of December
+
+ggplot(DelayedDecemberFlights, aes(x = DAY_OF_MONTH)) +
+  geom_histogram(color = "black", fill = "white") +
+  ylab('Number of Delayed Flights') +
+  xlab('Day of the Month') +
+  ggtitle('Distribution of Delayed Flights in December')
+```
+
 Burke's Plot:
 
 Drew's Plot:
