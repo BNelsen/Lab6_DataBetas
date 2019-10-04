@@ -26,6 +26,19 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 #Individual Sections:
 
 Tanner's Plot:
+```{r}
+# count the number of delayed flights to Denver
+carrierDelay <- filter(COflights, DEST == 'DEN', ARR_DELAY >= 15, !is.na(ARR_DELAY)) %>% group_by(CARRIER) %>% summarise('total' = n())
+
+# count the total number of planes landing in Denver in the dataset
+landed <- filter(COflights, DEST == 'DEN', !is.na(ARR_TIME)) %>% group_by(CARRIER) %>% summarise('total' = n())
+
+merged <- merge(carrierDelay, landed, by="CARRIER")
+
+merged <- mutate(merged, probCarrierDelay = total.x/total.y)
+
+ggplot(data = merged,aes(x = CARRIER, y = probCarrierDelay)) + geom_point() + geom_text(aes(label=signif(probCarrierDelay, digits = 3)), hjust=-.25, vjust=0) + xlab('Airline') + ylab('Probability of an Arrival Delay') + ggtitle('The Probability of an Arrival Delay in Denver by Airline')
+```
 
 David's Plot:
 
