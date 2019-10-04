@@ -17,8 +17,13 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 
 # Overall Questions, Significance of Overall Questions:
 
+What are the biggest factors that cause delays in arrival to DIA?
 
+Significance: This will help people who plan on flying to Denver understand the factors that could cause delays during the flight based on choice of airline, which airport they are leaving from, weather along the flight, and other factors that lead to delay. It will also help DIA prepare better for these types of factors, so they can reinterperet or advertise arrival times better to the consumer.
 
+What is the most reliable way to travel to DIA?
+
+Significance: This will help the customers know which airlines are most reliable for flying to DIA and which airports are most reliable for flying to DIA. This will help DIA by showing where and possibly how themselves and their airline partners can improve arrival times and accurate flight times.
 
 #Team Plots & Questions:
 **What Factors Lead to On-time Arrivals in Denver?**
@@ -262,8 +267,9 @@ ggplot(data = taxitime)+
 ```
 
 Findings:
-I asked the question: Does a longer taxi cause for an arrival delay? According to my findings it does not cause for an arrival delay. I first found the taxi in time and taxi out time for all flights to denver and then I found the average taxi in and out time. I then added those together and created a variable Taxi Delay where I took all taxi times greater than the average taxi time and made those late taxi times. I then took the probability of the taxi times with and without delay compared to late arrivals and was given values of P = 0.189 for taxi delay and P = 0.795 for taxis not delay. These two probabilities show that there is actually a higher chance of a flight being delayed if a taxi is not delayed than if the taxi is delayed. I plotted the time vs delay using geom_point so I could show that there is no correlation or pattern between taxi time and flight delay and it is seen in the graph that the more flights delayed are in the lesser taxi time totals.
+I asked the question: Does a longer taxi cause for an arrival delay? According to my findings it does not cause for an arrival delay. I first found the taxi-in time and taxi-out time for all flights to denver and then I found the average of the two. I created a variable TAXI_DELAY where I took all taxis greater than the average taxi. I then took the probability of the taxis with and without delay compared to late arrivals and was given values of (P = 0.189 for taxi delay) and (P = 0.795 for taxis not delay). These two probabilities show that there is a higher chance of a flight being delayed if a taxi is not delayed than if a taxi is delayed. I plotted the time vs delay using geom_point so I could show that there is no correlation or pattern between taxi time and flight delay and it is seen in the graph that the more flights delayed are in the lesser taxi time totals.
+
 
 #Summary/Division of Labor:
 
-Drew did the data and writing for the Team Plots and Questions section, as well as the Recommendation. David created the Team Plot. We all did our individual plots and data work.
+Drew did the data and writing for the Team Plots and Questions section, as well as the Recommendation. David created the Team Plot. We all did our individual plots and data work. Brandon and Tanner worked on the overall questions and significance.
