@@ -30,12 +30,15 @@ PtoDEN <- nrow(DENflights)/nrow(COflights)
 ##probability of a flight to denver out of total flights.
 late_arrival <- DENflights %>% filter(DENflights$ARR_DELAY >= 15)
 ##creating late arrival to test probability
-PLateArr <- late_arrival/DENflights
+DENflights_total <- COflights %>% filter(DEST == 'DEN') %>% summarise('total' = n())
+late_arrival_total <- DENflights %>% filter(DENflights$ARR_DELAY >= 15) %>% summarise('late' = n())
+PLateArr <- late_arrival_total/DENflights_total
 ##the probability of a flight arriving late is 0.157
 
 ##testing factors that increase arrival delay.
 late_departure <- DENflights %>% filter(DEP_DELAY >= 15)
-PLateDep <- late_departure/DENflights
+late_departure_total <- DENflights %>% filter(DEP_DELAY >= 15) %>% summarise('departure' = n())
+PLateDep <- late_departure_total/DENflights_total
 ##probability of a late departure is 0.164
 
 ##taxi time total
