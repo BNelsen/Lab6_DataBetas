@@ -24,11 +24,11 @@ COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/os
 **What Factors Lead to On-time Arrivals in Denver?**
 This question is important to airports because DIA wants to maximize the efficiency of their service.  The world runs on a schedule and being able to consistently rely on flight times being accurate helps people plan ahead with more certainty. If a diplomat has an important international meeting with a foreign consulate, they need to be able to plan out their trip ahead of time and factor in time of flight. If the flight time is unreliable, it causes a host other logistical issues for passengers.  Minimizing delays also allows the airport to send out and receive a higher volume of flights, increasing their financial bottom line. Hidden in the data are the factors that lead to on-time arrivals, and by analyzing it we may gain more insight on these influences.
 ```{r}
-DENflights <- COflights %>% filter(DEST == 'DEN') %>% summarise('DEN' = n())
+DENflights <- COflights %>% filter(DEST == 'DEN')
 ##filtering flights that are only arriving in denver
 PtoDEN <- nrow(DENflights)/nrow(COflights)
 ##probability of a flight to denver out of total flights.
-late_arrival <- DENflights %>% filter(!is.na(DENflights$ARR_DELAY >= 15)) %>% summarise('late' = n())
+late_arrival <- DENflights %>% filter(DENflights$ARR_DELAY >= 15)
 ##creating late arrival to test probability
 PLateArr <- late_arrival/DENflights
 ##the probability of a flight arriving late is 0.157
@@ -240,5 +240,33 @@ pie(totals, labels = lbls, main="Delays by Type")
 ```
 
 ***Brandon's Plot:***
+```{r}
+#doing probabilit of total taxi time, does a longer taxi cause for a delay?
+DENflights <- COflights %>% filter(DEST == 'DEN')
+IN <- filter(delayed, TAXI_IN > 0)
+OUT <- filter(delayed, TAXI_OUT > 0)
+AVG_IN <- mean(IN$TAXI_IN)
+AVG_OUT <- mean(OUT$TAXI_OUT)
+taxitime <- DENflights %>% mutate(time = DENflights$TAXI_IN + DENflights$TAXI_OUT)
+AVG_TAXITIME <- AVG_IN + AVG_OUT 
+TAXI_DELAY <- taxitime %>% filter(time > AVG_TAXITIME)
+TAXI_NO_DELAY <- taxitime %>% filter(time <= AVG_TAXITIME)
+
+PTaxiNoDelay = nrow(TAXI_NO_DELAY)/nrow(taxitime)
+PTaxiDelay = nrow(TAXI_DELAY)/nrow(taxitime)
+#probability of any flight being delayed is 0.157.
+#P(A and B)
+PTAXI <- PTaxiDelay * PLateArr
+PNOTAXI <- PTaxiNoDelay * PLateArr
+
+ggplot(data = taxitime)+
+  geom_point(aes(x = time, y = ARR_DELAY), na.rm = T)+
+  ggtitle('Distribution of Taxi Time vs Arrival Delay')+
+  xlab('Total Taxi Time')+
+  ylab('Arrival Delay')
+```
+
+Findings:
+I asked the question: Does a longer taxi cause for an arrival delay? According to my findings it does not cause for an arrival delay. I first found the taxi in time and taxi out time for all flights to denver and then I found the average taxi in and out time. I then added those together and created a variable Taxi Delay where I took all taxi times greater than the average taxi time and made those late taxi times. I then took the probability of the taxi times with and without delay compared to late arrivals and was given values of P = 0.189 for taxi delay and P = 0.795 for taxis not delay. These two probabilities show that there is actually a higher chance of a flight being delayed if a taxi is not delayed than if the taxi is delayed. I plotted the time vs delay using geom_point so I could show that there is no correlation or pattern between taxi time and flight delay and it is seen in the graph that the more flights delayed are in the lesser taxi time totals.
 
 #Summary/Division of Labor:
