@@ -105,14 +105,14 @@ As we can see, JetBlue flies to Denver exclusively from JFK in Queens, NY and BO
 
 ***David's Plot:***
 
-Findings: I used the data to determine how Christmas effected delays at DIA. I calculated the probability of a flight being delayed the week of Christmas by creating multiple subsets of the data and creating a new variable that determined if a flight was delayed. The probability of a flight being delayed Christmas week turned out to be 26.7%. The probability of a flight being delayed in december was 18.3% and the probability of any flight being delayed throughout all months was 17.1%. Hence, it is easy to see that the Christmas holiday has an effect on the chances of a flight being delayed. This is supported by the histogram which shows that the most amount of delayed flights occured on December 21st.
+Findings: I used the data to determine how Christmas effected delays at DIA. I calculated the probability of a flight being delayed the week of Christmas by creating multiple subsets of the data and creating a new variable that determined if a flight was delayed. The probability of a flight being delayed Christmas week turned out to be 25.4%. The probability of a flight being delayed in december was 18.1% and the probability of any flight being delayed throughout all months was 15.7%. Hence, it is easy to see that the Christmas holiday has an effect on the chances of a flight being delayed. This is supported by the histogram which shows that the most amount of delayed flights occured on December 21st.
 
 ```{r}
 #Create a variable specific to Denver
 
 DENflights <- 
   COflights %>%
-  filter(ORIGIN == 'DEN' | DEST == 'DEN')
+  filter(DEST == 'DEN')
 
 #Delayed arrivals in Denver
 #Create an operator that determines if a flight had a delayed arrival
@@ -142,13 +142,13 @@ FlightsChristmasWeek <-
 
 nrow(DelayedChristmasWeek)/nrow(FlightsChristmasWeek)
 
-## [1] 0.2673465
+## [1] 0.2539916
 
 #Probability of any flight being delayed
 
 nrow(DelayedDENFlights)/nrow(DENflights)
 
-## [1] 0.1709883
+## [1] 0.1565756
 
 #probability of a December flight being delayed
 
@@ -157,21 +157,38 @@ DecemberFlights <-
 
 nrow(DelayedDecemberFlights)/nrow(DecemberFlights)
 
-## [1] 0.1826364
+## [1] 0.1804948
 
-#P(Delayed Christmas Week) = 26.7%, P(Any flight being Delayed) = 17.1%, P(December Flight being delayed) = 18.3%
+#P(Delayed Christmas Week) = 25.4%, P(Any flight being Delayed) = 15.7%, P(December Flight being delayed) = 18.1%
 
 #Create a plot that shows there are more delays Christmas Week oppose to the rest of December
 
 ggplot(DelayedDecemberFlights, aes(x = DAY_OF_MONTH)) +
   geom_histogram(color = "black", fill = "white") +
-  ylab('Number of Delayed Flights') +
+  ylab('Number of Delayed Arrivals') +
   xlab('Day of the Month') +
-  ggtitle('Distribution of Delayed Flights in December')
+  ggtitle('Distribution of Delayed Arrivals in December')
 ```
 
 ***Burke's Plot:***
+```{r, echo=FALSE}
+library(tidyverse)
+library(dplyr)
 
+Denverflights <- COflights %>% filter(DEST=='DEN' )
+Denverflights <- Denverflights %>% mutate(LATE_ARR = (ARR_DELAY >= 15 ))
+Denverflights <- Denverflights %>% filter(!is.na(ARR_DELAY))
+Delayedflights <- Denverflights %>% filter(LATE_ARR == TRUE)
+
+OriginFlight <- Delayedflights %>% group_by(ORIGIN) %>% summarize('total' = n())
+TopOriginFlight <- OriginFlight %>% filter(total > 600)
+
+#Top 15 Origins of Departure with Delayed Flights
+ggplot(data = TopOriginFlight) + geom_col(mapping = aes(x = ORIGIN, y = total, fill = ORIGIN)) +
+  xlab('Origin of Flight by Airport')+
+  ylab('Total Count')+
+  ggtitle('Total Delayed Flights by Origin of Departure')
+```
 ***Drew's Plot:***
 
 I used the data to determine the frequency of the different types of delays and how long they take based on the type. I first filtered the data by "delayed" flights that missed their arrival time by at least 15 minutes. After this, I broke down each delayed flight by the type, including carrier, weather, NAS, and security. From this breakdown, I calculated the average number of minutes that each type of delay took. From this, we can see that carrier and NAS delays are the most prevalent, but weather delays take the longest on average. I then created a pie chart to show the probablity of each delay more clearly, and which type is the most prevalent.
