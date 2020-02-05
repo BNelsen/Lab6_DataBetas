@@ -248,14 +248,8 @@ TopOriginFlight <- OriginFlight %>% filter(total > 600)
 ggplot(data = TopOriginFlight) + geom_col(mapping = aes(x = ORIGIN, y = total, fill = ORIGIN)) +
   xlab('Origin of Flight by Airport')+
   ylab('Total Count')+
-<<<<<<< Updated upstream
-  ggtitle('Total Delayed Flights to DEN by Origin of Departure')
-```
-
-=======
   ggtitle('Total Delayed Flights by Origin of Departure')
 ```
->>>>>>> Stashed changes
 ***Drew's Plot:***
 
 I used the data to determine the frequency of the different types of delays and how long they take based on the type. I first filtered the data by "delayed" flights that missed their arrival time by at least 15 minutes. After this, I broke down each delayed flight by the type, including carrier, weather, NAS, and security. From this breakdown, I calculated the average number of minutes that each type of delay took. From this, we can see that carrier and NAS delays are the most prevalent, but weather delays take the longest on average. I then created a pie chart to show the probablity of each delay more clearly, and which type is the most prevalent.
